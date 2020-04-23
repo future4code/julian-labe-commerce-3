@@ -1,26 +1,152 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components'
+//import Filtro from './components/Filtro/Filtro'
+import Produto from './components/Home/Produto'
+import CaixaBusca from './components/Filtro/CaixaBusca'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const AppContainer = styled.main`
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template: 1fr / 1fr 3fr 1fr;
+ 
+`
+const NavFiltro = styled.nav`
+  border: 1px solid black;
+
+`
+const SecaoProdutos = styled.section`
+  width: auto;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+`
+const HeaderProdutos = styled.header`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  
+` 
+const PrateleiraProdutos = styled.div`
+  height: 100%;
+  max-width: 90%;
+  display: grid;
+  grid-template: repeat(4, 1fr) / repeat(4, 1fr) ;
+  column-gap: 10px;
+  
+  
+`
+const SecaoCarrinho = styled.section`
+  border: 1px solid black;
+`
+
+class App extends React.Component{
+  
+  //COMPONENTES DE CLASSE
+  
+  state={
+    listaDeProdutos: [],
+    listaDoCarrinho: [],
+    listaDoBuscarNome: [],
+    valorNomeBusca: ''
+  }
+  
+  componentDidMount(){
+    const listaDeObjetos = [
+      { id:'p1' ,url:'https://i.picsum.photos/id/570/200/200.jpg' ,nome:'Produto1' ,preco:10 },
+      { id:'p2' ,url:'https://i.picsum.photos/id/571/200/200.jpg' ,nome:'Produto2' ,preco:20 },
+      { id:'p3' ,url:'https://i.picsum.photos/id/572/200/200.jpg' ,nome:'Produto3' ,preco:50 },
+      { id:'p4' ,url:'https://i.picsum.photos/id/573/200/200.jpg' ,nome:'Produto4' ,preco:100 }
+    ];
+
+    localStorage.setItem('listaProdutos', JSON.stringify(listaDeObjetos))
+
+    this.setState({listaDeProdutos: listaDeObjetos})
+    
+  }
+
+  componentDidUpdate(){
+    
+  }
+
+  //FUNÇÕES//
+
+  //Busca o item clicado pelo id e insere ele no estado listaDoCarrinho
+  adicionarAoCarrinho = (event) =>{
+    console.log(this.state.listaDoCarrinho)
+
+    let idSelecionado = event.target.id;
+    let listaProdutos = this.state.listaDeProdutos;
+
+    let produtoSelecionado = listaProdutos.filter( produto =>{
+      return produto.id === idSelecionado
+    })
+    this.state.listaDoCarrinho.push(produtoSelecionado[0])
+
+    console.log(this.state.listaDoCarrinho)
+  }
+
+  filtroBuscarPeloNome = e => {
+    this.setState({
+        valorNomeBusca: e.target.value
+    });
+  }
+
+  render(){
+    console.log(this.state.listaDeProdutos)
+    const produtosNaPrateleira = this.state.listaDeProdutos.map(produto =>{
+      return (
+        <Produto
+          
+          ImagemProduto={produto.url}
+          NomeProduto={produto.nome}
+          PrecoProduto={`R$ ${produto.preco}`}
+          Id={produto.id}
+          AdicionarAoCarrinho={this.adicionarAoCarrinho}
+        />
+      )
+    })
+    
+    return (
+
+      <AppContainer>
+
+        <NavFiltro>
+          <p>filtro aqui</p>
+        </NavFiltro>
+
+        <SecaoProdutos>
+
+          <HeaderProdutos>
+            <p>header dos produtos</p>
+            <CaixaBusca
+            filtroBuscarPeloNome = {this.filtroBuscarPeloNome} 
+            produtoBusca = {this.state.valorNomeBusca}
+            />
+          </HeaderProdutos>
+          
+          <PrateleiraProdutos>
+
+            {produtosNaPrateleira}
+
+          </PrateleiraProdutos>
+          
+        </SecaoProdutos>
+
+        <SecaoCarrinho>
+          <p>carrinho aqui</p>
+        </SecaoCarrinho>
+
+      </AppContainer>
+
+    )
+  }  
 }
 
 export default App;
