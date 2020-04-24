@@ -10,7 +10,7 @@ const AppContainer = styled.main`
   height: 100vh;
   display: grid;
   grid-template: 1fr / 1fr 3fr 1fr;
- 
+
 `
 const NavFiltro = styled.nav`
   border: 1px solid black;
@@ -21,7 +21,6 @@ const SecaoProdutos = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 `
 const HeaderProdutos = styled.header`
   width: 100%;
