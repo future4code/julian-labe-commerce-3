@@ -69,7 +69,6 @@ const SecaoCarrinho = styled.section`
 class App extends React.Component {
 
   //COMPONENTES DE CLASSE
-
   state = {
     listaDeProdutos: [],
 
@@ -120,7 +119,6 @@ class App extends React.Component {
   }
 
   //FUNÇÕES//
-
   enviarListaCarrinho = () => {
     if (this.state.listaDoCarrinho !== undefined) {
       return this.state.listaDoCarrinho
