@@ -129,15 +129,11 @@ class Carrinho extends React.Component {
                 <InfoCarrinho>Carrinho</InfoCarrinho>
 
                 <ListaCarrinho>
-
                     {produtosNoCarrinho}
-
                 </ListaCarrinho>
 
                 <InfoCarrinho>
-
                     Total <b>R$ {valorTotal}</b>
-
                 </InfoCarrinho>
             </BoxCarrinho>
 
