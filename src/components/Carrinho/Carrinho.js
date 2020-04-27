@@ -135,6 +135,7 @@ class Carrinho extends React.Component {
                 <InfoCarrinho>
                     Total <b>R$ {valorTotal}</b>
                 </InfoCarrinho>
+                
             </BoxCarrinho>
 
         )

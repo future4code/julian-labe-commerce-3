@@ -21,10 +21,12 @@ class IconeFlutuante extends React.Component {
     render() {
         return (
             <BoxIcone>
+
                 <Icone 
                 onClick={this.props.EsconderCarrinho}
                 src='https://lh3.googleusercontent.com/proxy/ae8y9IwnmgLXBnBBIwHq0on4XqWitouvmOEgRhFPpeIHfmsVEJGuPTCoOr63M0OmL4B8MtKlfjSUtqZhhR--1KGp64zBCIebThx5D6alz3GQQflUcNNavNM9uidArV93gxeWhlO4vT3WCvqF'
                  />
+                 
             </BoxIcone>
         );
     }

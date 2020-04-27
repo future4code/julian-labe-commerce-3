@@ -45,10 +45,15 @@ class Produto extends React.Component {
     render() {
         return (
             <BoxProduto id={this.props.Id}>
+
                 <ImagemProduto src={this.props.ImagemProduto} />
+
                 <InfoProduto>{this.props.NomeProduto}</InfoProduto>
                 <InfoProduto>{this.props.PrecoProduto}</InfoProduto>
-                <BotaoProduto id={this.props.Id} onClick={this.props.AdicionarAoCarrinho}>Adicionar passaporte</BotaoProduto>
+
+                <BotaoProduto id={this.props.Id}
+                onClick={this.props.AdicionarAoCarrinho}>Adicionar passaporte</BotaoProduto>
+
             </BoxProduto>
         )
     }

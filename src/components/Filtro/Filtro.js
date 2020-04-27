@@ -47,7 +47,9 @@ class Filtro extends React.Component {
 
         return (
             <BoxFiltro>
+
                 <h3>Filtros</h3>
+
                 <labelValorMin>Valor mínimo: </labelValorMin>
                 <ValorMin type={'number'} value={this.props.valorInputMin} onChange={this.props.filtroValorMin} />
 
@@ -57,8 +59,10 @@ class Filtro extends React.Component {
                 <BotaoFiltrar onClick={this.props.onClickFiltrar}>Filtrar</BotaoFiltrar>
 
                 <OrdenaProdutos onChange={this.props.onChangeSelectPrecos}>
+
                     <option value={opcoes.opcao1}> {opcoes.opcao1} </option>
                     <option value={opcoes.opcao2}> {opcoes.opcao2} </option>
+                    
                 </OrdenaProdutos>
 
             </BoxFiltro>
