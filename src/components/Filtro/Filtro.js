@@ -2,19 +2,30 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ValorMin = styled.input`
-    margin: 0;
+    margin: 5px;
+    border-radius: 10px;
+    padding: 5px;
 `
 
 const ValorMax = styled.input`
-    margin: 0;
+    margin: 5px;
+    border-radius: 10px;
+    padding: 5px;
 `
 const BotaoFiltrar = styled.button`
-    margin: 0;
-    background-color: grey;
+    margin: 10px;
+    background-color: indigo;
+    font-weight: bolder;
+    padding: 10px 30px;
+    border-radius: 30px;
+    border-color: grey;
+    cursor: pointer;
 `
 
 const OrdenaProdutos = styled.select`
-    margin: 0;
+    margin: 20%;
+    border-radius: 30px;
+    cursor: pointer;
 `
 
 const BoxFiltro = styled.div`
@@ -22,15 +33,18 @@ const BoxFiltro = styled.div`
     flex-direction: column;
     align-items: center;
     justify-items: flex-start;
+    margin-top: 20%;
 `
 
 class Filtro extends React.Component {
     state = {
-        
+
     }
-      
+
 
     render() {
+        let opcoes = this.props.opcoes
+
         return (
             <BoxFiltro>
                 <h3>Filtros</h3>
@@ -42,11 +56,9 @@ class Filtro extends React.Component {
 
                 <BotaoFiltrar onClick={this.props.onClickFiltrar}>Filtrar</BotaoFiltrar>
 
-                <br />
-
-                <OrdenaProdutos>
-                    <option value={'crescente'}>Preço: Crescente</option>
-                    <option value={'decrescente'}>Preço: Decrescente</option>
+                <OrdenaProdutos onChange={this.props.onChangeSelectPrecos}>
+                    <option value={opcoes.opcao1}> {opcoes.opcao1} </option>
+                    <option value={opcoes.opcao2}> {opcoes.opcao2} </option>
                 </OrdenaProdutos>
 
             </BoxFiltro>
