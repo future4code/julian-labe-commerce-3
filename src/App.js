@@ -6,13 +6,22 @@ import CaixaBusca from './components/Filtro/CaixaBusca'
 import IconeFlutuante from './components/IconeFlutuante'
 import Carrinho from './components/Carrinho/Carrinho'
 
+
 const AppContainer = styled.main`
   margin: 0;
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template: 1fr / 1fr 4fr;
+  grid-template: ${
+  props => {
+    if (props.value === true) {
+      return '1fr / 1fr 4fr'
+    } else {
+      return '1fr / 1fr 3fr 1fr'
+    }
+  }};
 `
+
 const NavFiltro = styled.nav`
   border: 1px solid grey;
   color: indigo;
@@ -44,8 +53,17 @@ const PrateleiraProdutos = styled.div`
   row-gap: 15px;
   padding: 20px;
 `
+
 const SecaoCarrinho = styled.section`
-  border: 1px solid grey;
+  border: 1px solid black;
+  display: ${
+  props => {
+    if (props.value === true) {
+      return 'none'
+    } else {
+      return 'flex'
+    }
+  }};
 `
 
 class App extends React.Component {
@@ -65,6 +83,8 @@ class App extends React.Component {
     valorInputMin: 0,
     filtroTexto: '',
     valorInputSelect: '',
+
+    carrinhoEscondido: true,
   }
 
   componentDidMount() {
@@ -75,7 +95,7 @@ class App extends React.Component {
       { id: 'p4', url: 'https://cosmophotography.files.wordpress.com/2013/11/a_comb_levels_curves.jpg', nome: 'Galáxia Andrômeda', preco: 50 },
       { id: 'p5', url: 'https://www.nasa.gov/sites/default/files/thumbnails/image/orion-nebula-xlarge_web.jpg', nome: 'Nebulosa de Órion', preco: 55 },
       { id: 'p6', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/V838_Mon_HST.jpg', nome: 'Estrela vermelha gigante', preco: 69 },
-      { id: 'p7', url: 'https://lh3.googleusercontent.com/proxy/5KI2PNu8uf5xLiE0KVkaFJKlOeCsD3r6-ofxyBqVOKKMsOZ7ZaZpCj-LoRXQ4eU2eBec2lwIP5y7W3zVWGIopDhu7-4tygMhjKVcYpSgf2if0OevbfPWn1Q4L3w4TvNZhwspxEoKPkqmLcRtXwEF1isU_qY', nome: 'Viagem só de ida para Sirius', preco: 78 },
+      { id: 'p7', url: 'https://lifeboat.com/blog.images/sirius-alpha-canis-majoris-facts-star-system-location-constellation.jpg', nome: 'Viagem só de ida para Sirius', preco: 78 },
       { id: 'p8', url: 'https://cdn.spacetelescope.org/archives/images/screen/heic0709b.jpg', nome: 'Tour até o aglomerado Abell 370', preco: 100 },
       { id: 'p9', url: 'https://img.estadao.com.br/fotos/crop/1200x1200/resources/jpg/4/5/1478372629454.jpg', nome: 'Venha para o planeta Marte!', preco: 46 },
       { id: 'p10', url: 'https://www.ccvalg.pt/astronomia/sistema_solar/lua/buzz_aldrin.jpg', nome: 'Venha pisar na Lua!', preco: 33 },
@@ -92,27 +112,27 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    
+
   }
 
-  componentWillUnmount(){
-    
+  componentWillUnmount() {
+
   }
 
   //FUNÇÕES//
 
-  enivarListaCarrinho = ()=>{
-    if(this.state.listaDoCarrinho !== undefined){
+  enviarListaCarrinho = () => {
+    if (this.state.listaDoCarrinho !== undefined) {
       return this.state.listaDoCarrinho
     }
   }
 
-  receberDadosCarrinho = (Dados) =>{
-     this.setState({adicionouAoCarrinho: Dados})
+  receberDadosCarrinho = (Dados) => {
+    this.setState({ adicionouAoCarrinho: Dados })
   }
 
   adicionarAoCarrinho = (event) => {
-    
+
     let idSelecionado = event.target.id;
     let listaProdutos = this.state.listaDeProdutos;
 
@@ -123,7 +143,7 @@ class App extends React.Component {
     this.state.listaDoCarrinho.push(produtoSelecionado[0])
     this.setState({ adicionouAoCarrinho: !this.state.adicionouAoCarrinho })
 
-    this.enivarListaCarrinho()
+    this.enviarListaCarrinho()
   }
 
   onChangeValorMin = e => {
@@ -184,9 +204,12 @@ class App extends React.Component {
     }
   }
 
+  esconderCarrinho = (e) => {
+    this.setState({ carrinhoEscondido: !this.state.carrinhoEscondido })
+  }
 
   render() {
-
+    console.log(this.state.carrinhoEscondido)
     const produtosNaPrateleira = this.state.listaDeProdutos.map(produto => {
       return (
         <Produto
@@ -200,10 +223,19 @@ class App extends React.Component {
       )
     });
 
+    const mostrarCarrinho = () => {
+      if (this.state.carrinhoEscondido === 'true') {
+        return (
+          <SecaoCarrinho style='display: none'>
+
+          </SecaoCarrinho>
+        )
+      }
+    }
 
     return (
 
-      <AppContainer>
+      <AppContainer value={this.state.carrinhoEscondido}>
 
         <NavFiltro>
           <Filtro
@@ -237,19 +269,19 @@ class App extends React.Component {
             {produtosNaPrateleira}
           </PrateleiraProdutos>
 
-          <IconeFlutuante />
-        
+
         </SecaoProdutos>
 
-        <SecaoCarrinho>
-
+        <SecaoCarrinho value={this.state.carrinhoEscondido}>
           <Carrinho
-          
-          carrinhoCallback = {this.receberDadosCarrinho}
-          receberCarrinho = {this.enivarListaCarrinho}
+            carrinhoCallback={this.receberDadosCarrinho}
+            receberCarrinho={this.enviarListaCarrinho}
           />
-
         </SecaoCarrinho>
+
+        <IconeFlutuante
+          EsconderCarrinho={this.esconderCarrinho}
+        />
 
       </AppContainer>
 
