@@ -6,18 +6,26 @@ const InputBusca = styled.input`
     border-top: none;
     border-left: none;
     border-right: none;
+    background-color: #171763;
+    border-color: black;
 `
 
 const BoxBusca = styled.div`
     margin: 0;
     display: flex;
-    height: 30px
+    height: 30px;
+    padding: 10px;
 `
 
-const BotaoBusca = styled.div`
+const BotaoBusca = styled.button`
     margin: 0;
     display: flex;
-    background-color: salmon;
+    background-color: indigo;
+    font-weight: bolder;
+    padding: 5px 20px;
+    border-radius: 30px;
+    border-color: grey;
+    cursor: pointer;
 `
 
 class CaixaBusca extends React.Component {
@@ -25,12 +33,11 @@ class CaixaBusca extends React.Component {
         inputNomeProduto: ''
     }
 
-
           render() {
             return (
                 <BoxBusca>
-                    <InputBusca type={'text'} placeholder={'Pesquisa por nome'} value={this.props.produtoBusca} onChange={this.props.filtroBuscarPeloNome}/>
-                    <BotaoBusca onClick={''}>Buscar</BotaoBusca>
+                    <InputBusca type={'text'} placeholder={'Digite seu destino'} value={this.props.filtroTexto} onChange={this.props.onChangeValorTexto}/>
+                    <BotaoBusca onClick={this.props.onClickBuscar}>Buscar</BotaoBusca>
                 </BoxBusca>
             );
         }
