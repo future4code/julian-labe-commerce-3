@@ -4,6 +4,7 @@ import Filtro from './components/Filtro/Filtro'
 import Produto from './components/Home/Produto'
 import CaixaBusca from './components/Filtro/CaixaBusca'
 import IconeFlutuante from './components/IconeFlutuante'
+import Carrinho from './components/Carrinho/Carrinho'
 
 const AppContainer = styled.main`
   margin: 0;
@@ -42,7 +43,6 @@ const PrateleiraProdutos = styled.div`
   column-gap: 15px;
   row-gap: 15px;
   padding: 20px;
-  
 `
 const SecaoCarrinho = styled.section`
   border: 1px solid grey;
@@ -54,7 +54,10 @@ class App extends React.Component {
 
   state = {
     listaDeProdutos: [],
+
     listaDoCarrinho: [],
+    adicionouAoCarrinho: false,
+
     listaDoBuscarNome: [],
     listaDoSelect: [],
 
@@ -62,8 +65,6 @@ class App extends React.Component {
     valorInputMin: 0,
     filtroTexto: '',
     valorInputSelect: '',
-
-    carrinhoAberto: false
   }
 
   componentDidMount() {
@@ -86,24 +87,43 @@ class App extends React.Component {
 
     this.setState({ listaDeProdutos: listaDeObjetos })
 
+    localStorage.setItem('listaCarrinho', JSON.stringify([]))
+
   }
 
   componentDidUpdate() {
+    
+  }
 
+  componentWillUnmount(){
+    
   }
 
   //FUNÇÕES//
 
-  //Busca o item clicado pelo id e insere ele no estado listaDoCarrinho
-  adicionarAoCarrinho = (event) => {
+  enivarListaCarrinho = ()=>{
+    if(this.state.listaDoCarrinho !== undefined){
+      return this.state.listaDoCarrinho
+    }
+  }
 
+  receberDadosCarrinho = (Dados) =>{
+     this.setState({adicionouAoCarrinho: Dados})
+  }
+
+  adicionarAoCarrinho = (event) => {
+    
     let idSelecionado = event.target.id;
     let listaProdutos = this.state.listaDeProdutos;
 
     let produtoSelecionado = listaProdutos.filter(produto => {
       return produto.id === idSelecionado
     })
+
     this.state.listaDoCarrinho.push(produtoSelecionado[0])
+    this.setState({ adicionouAoCarrinho: !this.state.adicionouAoCarrinho })
+
+    this.enivarListaCarrinho()
   }
 
   onChangeValorMin = e => {
@@ -166,6 +186,7 @@ class App extends React.Component {
 
 
   render() {
+
     const produtosNaPrateleira = this.state.listaDeProdutos.map(produto => {
       return (
         <Produto
@@ -219,6 +240,16 @@ class App extends React.Component {
           <IconeFlutuante />
         
         </SecaoProdutos>
+
+        <SecaoCarrinho>
+
+          <Carrinho
+          
+          carrinhoCallback = {this.receberDadosCarrinho}
+          receberCarrinho = {this.enivarListaCarrinho}
+          />
+
+        </SecaoCarrinho>
 
       </AppContainer>
 
